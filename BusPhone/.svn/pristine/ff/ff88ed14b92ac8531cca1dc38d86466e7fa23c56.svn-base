@@ -1,0 +1,123 @@
+package com.zlj.busphone;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.map.MapView;
+import com.zlj.AndroidToolsClass.AndroidToolsClass;
+import com.zlj.BaiDuMap.BaiDuMap;
+
+public class MainActivity extends Activity {
+	
+	private MapView mMapView = null;
+	private BaiDuMap mBaiDuMap;
+	private AndroidToolsClass mAndroidToolsClass;
+	private long mExitTime;
+	private MessageClss msgc;
+	
+	Button button; 
+	TextView Latitude;
+	TextView Longitude;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        
+        //在使用SDK各组件之前初始化context信息，传入ApplicationContext  
+        SDKInitializer.initialize(getApplicationContext());  
+        
+        setContentView(R.layout.activity_main);
+        
+        button = (Button)findViewById(R.id.button);
+        Latitude = (TextView)findViewById(R.id.Latitude);
+        Longitude = (TextView)findViewById(R.id.Longitude);
+        
+        mMapView = (MapView) findViewById(R.id.bmapView);
+        mBaiDuMap = new BaiDuMap(getApplicationContext(), mMapView);
+        mBaiDuMap.StartLocate();
+        
+        mAndroidToolsClass = new AndroidToolsClass(getApplicationContext());
+        mAndroidToolsClass.CheckNetworkStatus();
+        
+		msgc = new MessageClss();
+
+        button.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+		        Latitude.setText(mBaiDuMap.mLatitude+"");
+		        Longitude.setText(mBaiDuMap.mLongitude+"");
+		        
+		        double[] buff = {30.319971, 120.371554,30.322137, 120.353103,30.322044, 120.348378,30.321927, 120.344380,30.311795, 120.346860,30.311218,
+		        		120.355403,30.316331, 120.354567};
+		        
+		        mBaiDuMap.DrawLine(7,buff);
+//		        double[] buff1 = {30.321233, 120.347444,30.319370, 120.347075,30.317188, 120.349636,30.322067, 120.351594,30.320992, 120.349734};
+//		        mBaiDuMap.DrawLine(5,buff1);
+			
+			}
+		});  
+    }
+
+    /*
+     * 函数名：onKeyDown
+     * 参    数：keyCode，event
+     * 返回值：boolean
+     * 说    明：按两次返回键退出程序
+     */
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                        mAndroidToolsClass.ToastShow("再按一次退出程序");
+                        mExitTime = System.currentTimeMillis();
+
+                } else {
+                        finish();
+                        mBaiDuMap.AllDestroy();
+                        msgc.Close();
+                        System.exit(0);
+                }
+                return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }	
+    
+
+
+	@Override  
+    protected void onDestroy() {  
+        super.onDestroy();  
+        //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理  
+        mMapView.onDestroy();  
+    }  
+    @Override  
+    protected void onResume() {  
+        super.onResume();  
+        //在activity执行onResume时执行mMapView. onResume ()，实现地图生命周期管理  
+        mMapView.onResume();  
+    }  
+    @Override  
+    protected void onPause() {  
+        super.onPause();  
+        //在activity执行onPause时执行mMapView. onPause ()，实现地图生命周期管理  
+        mMapView.onPause();  
+    }  
+    
+    
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+    
+}

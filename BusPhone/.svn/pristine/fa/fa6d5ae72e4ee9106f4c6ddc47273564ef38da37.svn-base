@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity" >
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="button" />
+
+	<com.baidu.mapapi.map.MapView
+	    android:id="@+id/bmapView"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:layout_below="@+id/button"
+	    android:clickable="true" />
+
+	<TextView
+	    android:id="@+id/Latitude"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignBaseline="@+id/button"
+	    android:layout_alignBottom="@+id/button"
+	    android:layout_toRightOf="@+id/button"
+	    android:text="TextView" />
+
+	<TextView
+	    android:id="@+id/Longitude"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignBaseline="@+id/Latitude"
+	    android:layout_alignBottom="@+id/Latitude"
+	    android:layout_marginLeft="62dp"
+	    android:layout_toRightOf="@+id/Latitude"
+	    android:text="TextView" />
+
+</RelativeLayout>

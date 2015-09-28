@@ -1,0 +1,12 @@
+package com.zlj.busphone;
+
+import java.io.FileWriter;
+
+public class LogInfo {
+	FileWriter fw;
+	
+	void OpenFile()
+	{
+		
+	}
+}

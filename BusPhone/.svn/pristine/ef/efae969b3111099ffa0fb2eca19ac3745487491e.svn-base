@@ -1,0 +1,13 @@
+	public static final double[] QING_VILLAGES = { 30.319971, 120.371554 };// 清雅苑
+	public static final double[] FRED = { 30.322137, 120.353103 };// 弗雷德
+	public static final double[] HDU_LIVING = { 30.322044, 120.348378 };// 杭电生活区
+	public static final double[] HIGH_SAND = { 30.321927, 120.344380 };// 高沙
+	public static final double[] TRADE_CITY = { 30.311795, 120.346860 };// 商贸城
+	public static final double[] WUMART = { 30.311218, 120.355403 };// 物美
+	public static final double[] HZ_METRO = { 30.316331, 120.354567 };// 地铁
+
+	public static final double[] HDU_GYM = { 30.321233, 120.347444 };// 杭电体育馆
+	public static final double[] HDU_STADIUM = { 30.319370, 120.347075 };// 体育场
+	public static final double[] HDU_DOOR = { 30.317188, 120.349636 };// 大门
+	public static final double[] HDU_NORTH_DOOR = { 30.322067, 120.351594 };// 北一门
+	public static final double[] HDU_LIBRARY = { 30.320992, 120.349734 };// 图书馆

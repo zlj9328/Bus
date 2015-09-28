@@ -1,0 +1,114 @@
+package com.zlj.busphone;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+import android.content.Context;
+import android.widget.Toast;
+
+
+
+public class MessageClss {
+	
+	private Socket socket;
+	public String severIP = "192.168.1.101";//IP
+	public int severPort = 8888;//端口
+	
+	OutputStream writemsg = null;
+	BufferedReader readmsg;
+	
+	private RecMsgThread RMThread;//数据接收发送线程
+	private int recmsg ;
+	private int sendmsg = 3;
+	
+	public static final double[] QING_VILLAGES 	= {30.319971, 120.371554};//清雅苑
+	public static final double[] FRED 			= {30.322137, 120.353103};//弗雷德
+	public static final double[] HDU_LIVING 	= {30.322044, 120.348378};//杭电生活区
+	public static final double[] HIGH_SAND 		= {30.321927, 120.344380};//高沙
+	public static final double[] TRADE_CITY 	= {30.311795, 120.346860};//商贸城
+	public static final double[] WUMART 		= {30.311218, 120.355403};//物美
+	public static final double[] HZ_METRO		= {30.316331, 120.354567};//地铁
+	
+	public static final double[] HDU_GYM        = {30.321233, 120.347444};//杭电体育馆
+	public static final double[] HDU_STADIUM    = {30.319370, 120.347075};//体育场
+	public static final double[] HDU_DOOR       = {30.317188, 120.349636};//大门
+	public static final double[] HDU_NORTH_DOOR = {30.322067, 120.351594};//北一门
+	public static final double[] HDU_LIBRARY 	= {30.320992, 120.349734};//图书馆
+	
+	
+	public MessageClss(Context context)
+	{
+		//创建线程
+		RMThread = new RecMsgThread();
+		RMThread.start();
+		//socket.connect(new InetSocketAddress(severIP, severPort), Connectiontimeout); 
+	}
+
+	
+	
+	class RecMsgThread extends Thread
+	{	//接受消息线程
+		int i = 0;
+		@Override
+		public void run()
+		{
+			try {
+				//实例化socket
+				socket = new Socket(severIP, severPort);
+				
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			try {
+				writemsg = socket.getOutputStream();
+				readmsg = new BufferedReader(new InputStreamReader(socket.getInputStream()));//接收
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} 
+			String line = null;
+			while(true)
+			{
+				try {			
+					
+					writemsg.write(i);
+					//writemsg.write(sendmsg);//转换为字节流
+					writemsg.flush();
+					
+					 
+					recmsg = readmsg.read();
+						 	 
+		   
+					System.out.println("rec from server!!"+recmsg);
+					i++;
+					
+			    	sleep(5000);
+				} catch (Exception  e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		} 
+	}
+	
+	
+	
+	void Close()
+	{
+		try{
+			writemsg.close();
+			readmsg.close();
+			socket.close();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+}
